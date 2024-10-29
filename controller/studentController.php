@@ -13,7 +13,7 @@ if (isset($_POST['create'])) {
     $postal_code = $_POST['postal_code'];
     $date_of_birth = $_POST['date_of_birth'];
     $tot_credit = $_POST['tot_credit'];
-    $dept_name = $_POST['dept_name'];
+    $dept_name = !empty($_POST['dept_name']) ? $_POST['dept_name'] : null;
 
     
     // Check if the student is at least 13 years old
@@ -109,7 +109,7 @@ function displayStudents() {
         while($row = $result->fetch_assoc()) {
             $fullName = $row["first_name"] . " " . $row["middle_name"] . " " . $row["last_name"];
             echo "<tr>";
-            echo "<td>" . $row["ID"] . "</td>";
+            // echo "<td>" . $row["ID"] . "</td>";
             echo "<td>" . $fullName . "</td>";
             echo "<td>" . $row["street_number"] . " " . $row["street_name"] . ", " . $row["city"] . ", " . $row["province"] . " " . $row["postal_code"] . "</td>";
             echo "<td>" . $row["date_of_birth"] . "</td>";

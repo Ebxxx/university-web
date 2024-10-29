@@ -65,11 +65,12 @@
                                 <input type="date" name="date_of_birth" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="number" name="salary" placeholder="Salary" step="0.01" required class="form-control">
+                                <input type="number" name="salary" placeholder="Salary" step="0.01" class="form-control">
                             </div>
                             <div class="form-group">
-                                <select name="dept_name" id="dept_name" required class="form-control">
+                                <select name="dept_name" id="dept_name"  class="form-control">
                                     <option value="">Select Department</option>
+                    
                                 </select>
                             </div>
                             <button type="submit" name="create" class="btn btn-primary">Add Instructor</button>
@@ -96,7 +97,7 @@
                                 <input type="text" class="form-control" id="edit_name" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="edit_salary">Total Credit</label>
+                                <label for="edit_salary">Salary</label>
                                 <input type="number" class="form-control" id="edit_salary" name="salary" step="0.01" required>
                             </div>
                             <div class="form-group">
@@ -118,7 +119,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Name</th>
                     <th>Address</th>
                     <th>Date of Birth</th>

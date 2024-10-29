@@ -14,7 +14,14 @@ if (isset($_POST['create'])) {
     $postal_code = $_POST['postal_code'];
     $date_of_birth = $_POST['date_of_birth'];
     $salary = $_POST['salary'];
-    $dept_name = $_POST['dept_name'];
+    $dept_name = !empty($_POST['dept_name']) ? $_POST['dept_name'] : null;
+
+        // // Validate department
+        // if ($dept_name === null || $dept_name === '') {
+        //     header("Location: ../views/instructor.html?error=" . urlencode("Department name is required"));
+        //     exit();
+        // }
+    
     
 
     // Check if the instructor is at least 18 years old
@@ -99,9 +106,9 @@ function displayInstructors() {
         while($row = $result->fetch_assoc()) {
             $fullName = $row["first_name"] . " " . $row["middle_name"] . " " . $row["last_name"];
             echo "<tr>";
-            echo "<td>" . $row["ID"] . "</td>";
+            // echo "<td>" . $row["ID"] . "</td>";
             echo "<td>" . $fullName . "</td>";
-            echo "<td>" . $row["street_number"] . " " . $row["street_name"] . ", ". $row["street_name"]. ", " . $row["city"] . ", " . $row["province"] . " " . $row["postal_code"] . "</td>";
+            echo "<td>" . $row["street_number"] . " ". $row["street_name"]. " ". $row["apt_number"]. ", " . $row["city"] . ", " . $row["province"] . " " . $row["postal_code"] . "</td>";
             echo "<td>" . $row["date_of_birth"] . "</td>";
             echo "<td>" . $row["salary"] . "</td>";
             echo "<td>" . $row["dept_name"] . "</td>";

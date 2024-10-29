@@ -1,5 +1,5 @@
-function editCourse(courseId, title, credits, deptName) {
-    document.getElementById('edit_course_id').value = courseId;
+function editCourse(courseCode, title, credits, deptName) {
+    document.getElementById('edit_course_code').value = courseCode;
     document.getElementById('edit_title').value = title;
     document.getElementById('edit_credits').value = credits;
     

@@ -36,7 +36,7 @@
                     <div class="modal-body">
                         <form id="createForm" method="post" action="../controller/courseController.php">
                             <div class="form-group">
-                                <input type="text" name="course_id" placeholder="Course Id" required class="form-control">
+                                <input type="text" name="course_code" placeholder="Course code" required class="form-control">
                             </div>
                             <div class="form-group">
                                 <input type="text" name="title" placeholder="Course title" class="form-control">
@@ -67,7 +67,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="editCourseForm" method="post" action="../controller/courseController.php">
-                            <input type="hidden" id="edit_course_id" name="course_id">
+                            <input type="hidden" id="edit_course_id" name="course_code">
                             <div class="form-group">
                                 <label for="edit_title">Title</label>
                                 <input type="text" class="form-control" id="edit_title" name="title" required>
@@ -95,7 +95,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Course ID</th>
+                    <th>Course code</th>
                     <th>Title</th>
                     <th>Credits</th>
                     <th>Department</th>

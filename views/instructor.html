@@ -35,6 +35,9 @@
                     <div class="modal-body">
                         <form id="createForm" method="post" action="../controller/instructorController.php">
                             <div class="form-group">
+                                <input type="text" name="id" placeholder="Instructor ID (6 digits)" required class="form-control" maxlength="6" pattern="[0-9]{6}">
+                            </div>
+                            <div class="form-group">
                                 <input type="text" name="first_name" placeholder="First Name" required class="form-control">
                             </div>
                             <div class="form-group">
@@ -93,16 +96,52 @@
                         <form id="editInstructorForm" method="post" action="../controller/instructorController.php">
                             <input type="hidden" id="edit_id" name="id">
                             <div class="form-group">
-                                <label for="edit_name">Name</label>
-                                <input type="text" class="form-control" id="edit_name" readonly>
+                                <label for="edit_name">First name</label>
+                                <input type="text" class="form-control" id="edit_name" name="first_name" >
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_name">Middle name</label>
+                                <input type="text" class="form-control" id="edit_name" name="middle_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_name">Last name</label>
+                                <input type="text" class="form-control" id="edit_name" name="last_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_street_number">Street Number</label>
+                                <input type="number" class="form-control" id="edit_street_number" name="street_number">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_street_name">Street Name</label>
+                                <input type="text" class="form-control" id="edit_street_name" name="street_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_apt_number">Apartment Number</label>
+                                <input type="text" class="form-control" id="edit_apt_number" name="apt_number">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_city">City</label>
+                                <input type="text" class="form-control" id="edit_city" name="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_province">Province</label>
+                                <input type="text" class="form-control" id="edit_province" name="province" >
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_postal_code">Postal Code</label>
+                                <input type="text" class="form-control" id="edit_postal_code" name="postal_code" >
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_date_of_birth">Birth</label>
+                                <input type="date" class="form-control" id="edit_date_of_birth" name="date_of_birth">
                             </div>
                             <div class="form-group">
                                 <label for="edit_salary">Salary</label>
-                                <input type="number" class="form-control" id="edit_salary" name="salary" step="0.01" required>
+                                <input type="number" class="form-control" id="edit_salary" name="salary" step="0.01">
                             </div>
                             <div class="form-group">
                                 <label for="edit_dept_name">Department</label>
-                                <select class="form-control" id="edit_dept_name" name="dept_name" required>
+                                <select class="form-control" id="edit_dept_name" name="dept_name">
                                     <!-- Options will be populated dynamically -->
                                 </select>
                             </div>
@@ -119,7 +158,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <!-- <th>ID</th> -->
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Address</th>
                     <th>Date of Birth</th>

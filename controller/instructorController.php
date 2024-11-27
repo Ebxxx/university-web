@@ -3,6 +3,7 @@ include '../db.php';
 
 // Create
 if (isset($_POST['create'])) {
+    $id = $_POST['id'];
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];
@@ -16,14 +17,6 @@ if (isset($_POST['create'])) {
     $salary = $_POST['salary'];
     $dept_name = !empty($_POST['dept_name']) ? $_POST['dept_name'] : null;
 
-        // // Validate department
-        // if ($dept_name === null || $dept_name === '') {
-        //     header("Location: ../views/instructor.html?error=" . urlencode("Department name is required"));
-        //     exit();
-        // }
-    
-    
-
     // Check if the instructor is at least 18 years old
     $dob = new DateTime($date_of_birth);
     $today = new DateTime();
@@ -34,25 +27,25 @@ if (isset($_POST['create'])) {
         exit();
     }
 
-    // Check if an instructor with the same name already exists
-    $check_sql = "SELECT * FROM instructor WHERE first_name = ? AND middle_name = ? AND last_name = ?";
-    $check_stmt = $conn->prepare($check_sql);
-    $check_stmt->bind_param("sss", $first_name, $middle_name, $last_name);
-    $check_stmt->execute();
-    $result = $check_stmt->get_result();
+         // Check if a student with the same ID already exists
+        $check_sql = "SELECT * FROM instructor WHERE ID = ?";
+        $check_stmt = $conn->prepare($check_sql);
+        $check_stmt->bind_param("i", $id);
+        $check_stmt->execute();
+        $result = $check_stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        // Instructor with the same name already exists
-        header("Location: ../views/instructor.html?error=" . urlencode("An instructor with the same name already exists."));
-        exit();
-    }
+        if ($result->num_rows > 0) {
+            // Instructor with the same name already exists
+            header("Location: ../views/instructor.html?error=" . urlencode("Instructor ID already exists."));
+            exit();
+        }
 
     // If no duplicate found and age is valid, proceed with insertion
-    $insert_sql = "INSERT INTO instructor (first_name, middle_name, last_name, street_number, street_name, apt_number, city, province, postal_code, date_of_birth, salary, dept_name) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $insert_sql = "INSERT INTO instructor (ID, first_name, middle_name, last_name, street_number, street_name, apt_number, city, province, postal_code, date_of_birth, salary, dept_name) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     $insert_stmt = $conn->prepare($insert_sql);
-    $insert_stmt->bind_param("ssssssssssds", $first_name, $middle_name, $last_name, $street_number, $street_name, $apt_number, $city, $province, $postal_code, $date_of_birth, $salary, $dept_name);
+    $insert_stmt->bind_param("sssssssssssds", $id, $first_name, $middle_name, $last_name, $street_number, $street_name, $apt_number, $city, $province, $postal_code, $date_of_birth, $salary, $dept_name);
     
     if ($insert_stmt->execute()) {
         header("Location: ../views/instructor.html?success=Instructor added successfully!");
@@ -63,14 +56,38 @@ if (isset($_POST['create'])) {
     }
 }
 
-
 // Update
 if (isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $salary = $_POST['salary'];
-    $dept_name = $_POST['dept_name'];
+    $id = ($_POST['id']);
+    $first_name = ($_POST['first_name']);
+    $middle_name = ($_POST['middle_name']);
+    $last_name = ($_POST['last_name']);
+    $salary = ($_POST['salary']);
+    $dept_name = !empty($_POST['dept_name']) ? $_POST['dept_name'] : null;
+    $street_number = ($_POST['street_number']);
+    $street_name = ($_POST['street_name']);
+    $apt_number = ($_POST['apt_number']);
+    $city = ($_POST['city']);
+    $province = ($_POST['province']);
+    $postal_code = ($_POST['postal_code']);
+    $date_of_birth = $_POST['date_of_birth'];
+    // $fullName = $row["first_name"] . " " . $row["middle_name"] . " " . $row["last_name"];
 
-    $sql = "UPDATE instructor SET salary='$salary', dept_name='$dept_name' WHERE ID='$id'";
+    // Update the instructor
+    $sql = "UPDATE instructor 
+            SET first_name = '$first_name',
+                middle_name = '$middle_name',
+                last_name = '$last_name',
+                salary = '$salary', 
+                dept_name = '$dept_name', 
+                street_number = '$street_number', 
+                street_name = '$street_name', 
+                apt_number = '$apt_number', 
+                city = '$city', 
+                province = '$province', 
+                postal_code = '$postal_code', 
+                date_of_birth = '$date_of_birth'
+            WHERE ID = '$id'";
     
     if ($conn->query($sql) === TRUE) {
         header("Location: ../views/instructor.html?success=Instructor updated successfully!");
@@ -106,7 +123,7 @@ function displayInstructors() {
         while($row = $result->fetch_assoc()) {
             $fullName = $row["first_name"] . " " . $row["middle_name"] . " " . $row["last_name"];
             echo "<tr>";
-            // echo "<td>" . $row["ID"] . "</td>";
+            echo "<td>" . $row["ID"] . "</td>";
             echo "<td>" . $fullName . "</td>";
             echo "<td>" . $row["street_number"] . " ". $row["street_name"]. " ". $row["apt_number"]. ", " . $row["city"] . ", " . $row["province"] . " " . $row["postal_code"] . "</td>";
             echo "<td>" . $row["date_of_birth"] . "</td>";

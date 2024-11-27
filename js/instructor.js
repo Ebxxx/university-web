@@ -1,6 +1,8 @@
-function editInstructor(id, name, salary, deptName) {
+function editInstructor(id, firstName, middleName, lastName, salary, deptName) {
     document.getElementById('edit_id').value = id;
-    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_fname').value = firstName;
+    document.getElementById('edit_mname').value = middleName;
+    document.getElementById('edit_lname').value = lastName;
     document.getElementById('edit_salary').value = salary;
     
     // Populate department options

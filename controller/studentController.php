@@ -3,6 +3,7 @@ include '../db.php';
 
 // Create
 if (isset($_POST['create'])) {
+    $id = $_POST['id'];
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];
@@ -26,55 +27,65 @@ if (isset($_POST['create'])) {
         exit();
     }
 
-    // Check if an student with the same name already exists
-    $check_sql = "SELECT * FROM student WHERE first_name = ? AND middle_name = ? AND last_name = ?";
-    $check_stmt = $conn->prepare($check_sql);
-    $check_stmt->bind_param("sss", $first_name, $middle_name, $last_name);
-    $check_stmt->execute();
-    $result = $check_stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        // student with the same name already exists
-        header("Location: ../views/student.html?error=" . urlencode("An student with the same name already exists."));
-        exit();
-    }
-
-    // If no duplicate found and age is valid, proceed with insertion
-    $insert_sql = "INSERT INTO student (first_name, middle_name, last_name, street_number, street_name, city, province, postal_code, date_of_birth, tot_credit, dept_name) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Check if a student with the same ID already exists
+        $check_sql = "SELECT * FROM student WHERE ID = ?";
+        $check_stmt = $conn->prepare($check_sql);
+        $check_stmt->bind_param("i", $id);
+        $check_stmt->execute();
+        $result = $check_stmt->get_result();
     
-    $insert_stmt = $conn->prepare($insert_sql);
-    $insert_stmt->bind_param("sssssssssds", $first_name, $middle_name, $last_name, $street_number, $street_name, $city, $province, $postal_code, $date_of_birth, $tot_credit, $dept_name);
-    
-    if ($insert_stmt->execute()) {
-        header("Location: ../views/student.html?success=student added successfully!");
-        exit();
-    } else {
-        header("Location: ../views/student.html?error=" . urlencode($conn->error));
-        exit();
-    }
-}
-
-//     $sql = "INSERT INTO student (first_name, middle_name, last_name, street_number, street_name, city, province, postal_code, date_of_birth, tot_credit, dept_name) 
-//             VALUES ('$first_name', '$middle_name', '$last_name', '$street_number', '$street_name', '$city', '$province', '$postal_code', '$date_of_birth', '$tot_credit', '$dept_name')";
-    
-//     if ($conn->query($sql) === TRUE) {
-//         header("Location: ../views/student.html?success=student added successfully!");
-//         exit();
-//     } else {
-//         header("Location: ../views/student.html?error=" . urlencode($conn->error));
-//         exit();
-//     }
-// }
+        if ($result->num_rows > 0) {
+            // Student with the same ID already exists
+            header("Location: ../views/student.html?error=" . urlencode("Student ID already exists."));
+            exit();
+        }
+ 
+     // If no duplicate found and age is valid, proceed with insertion
+     $insert_sql = "INSERT INTO student (ID, first_name, middle_name, last_name, street_number, street_name, city, province, postal_code, date_of_birth, tot_credit, dept_name) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+     
+     $insert_stmt = $conn->prepare($insert_sql);
+     $insert_stmt->bind_param("ssssssssssds", $id, $first_name, $middle_name, $last_name, $street_number, $street_name, $city, $province, $postal_code, $date_of_birth, $tot_credit, $dept_name);
+     
+     if ($insert_stmt->execute()) {
+         header("Location: ../views/student.html?success=student added successfully!");
+         exit();
+     } else {
+         header("Location: ../views/student.html?error=" . urlencode($conn->error));
+         exit();
+     }
+ }
 
 // Update
 if (isset($_POST['update'])) {
-    $id = $_POST['id'];
-    $tot_credit = $_POST['tot_credit'];
-    $dept_name = $_POST['dept_name'];
-    
-    $sql = "UPDATE student SET tot_credit = '$tot_credit', dept_name = '$dept_name' WHERE ID='$id'";
-    
+    $id = ($_POST['id']);
+    $first_name = ($_POST['first_name']);
+    $middle_name = ($_POST['middle_name']);
+    $last_name = ($_POST['last_name']);
+    $tot_credit = ($_POST['tot_credit']);
+    $dept_name = !empty($_POST['dept_name']) ? $_POST['dept_name'] : null;
+    $street_number = ($_POST['street_number']);
+    $street_name = ($_POST['street_name']);
+    $city = ($_POST['city']);
+    $province = ($_POST['province']);
+    $postal_code = ($_POST['postal_code']);
+    $date_of_birth = $_POST['date_of_birth'];
+
+        // Update the instructor
+    $sql = "UPDATE student 
+        SET first_name = '$first_name',
+            middle_name = '$middle_name',
+            last_name = '$last_name',
+            tot_credit = '$tot_credit', 
+            dept_name = '$dept_name', 
+            street_number = '$street_number', 
+            street_name = '$street_name', 
+            city = '$city', 
+            province = '$province', 
+            postal_code = '$postal_code', 
+            date_of_birth = '$date_of_birth'
+        WHERE ID = '$id'";
+
     if ($conn->query($sql) === TRUE) {
         header("Location: ../views/student.html?success=student updated successfully!");
         exit();
@@ -109,7 +120,7 @@ function displayStudents() {
         while($row = $result->fetch_assoc()) {
             $fullName = $row["first_name"] . " " . $row["middle_name"] . " " . $row["last_name"];
             echo "<tr>";
-            // echo "<td>" . $row["ID"] . "</td>";
+            echo "<td>" . $row["ID"] . "</td>";
             echo "<td>" . $fullName . "</td>";
             echo "<td>" . $row["street_number"] . " " . $row["street_name"] . ", " . $row["city"] . ", " . $row["province"] . " " . $row["postal_code"] . "</td>";
             echo "<td>" . $row["date_of_birth"] . "</td>";
